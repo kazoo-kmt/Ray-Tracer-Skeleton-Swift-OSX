@@ -35,8 +35,13 @@ class Sphere: ObjectType, CustomStringConvertible {
     
     func intersect(ray r: Ray, tMin: Float, hit h: Hit) -> Bool {
         //FIXME: Not yet implemented!
-        
-        return false
+        //If discriminant is false, it doesn't intersect. 
+        let a = 
+        let b = 2 * 
+        let c =
+        let d = b * b - 4 * a * c
+        if d < 0 {return false}
+        return true
     }
     
 }
