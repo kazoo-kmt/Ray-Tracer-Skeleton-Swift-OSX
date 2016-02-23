@@ -34,13 +34,24 @@ class Sphere: ObjectType, CustomStringConvertible {
     }
     
     func intersect(ray r: Ray, tMin: Float, hit h: Hit) -> Bool {
-        //FIXME: Not yet implemented!
-        //If discriminant is false, it doesn't intersect. 
-        let a = 
-        let b = 2 * 
-        let c =
-        let d = b * b - 4 * a * c
-        if d < 0 {return false}
+        //TODO: Fix return to return false for....
+        let originTranslation = r.origin - center
+        let a = length(r.direction) ** 2
+        let b = dot(2 * r.direction, originTranslation)
+        let c = dot(originTranslation, originTranslation) - (radius ** 2)
+        let dSquared = (b ** 2) - (4 * a * c)
+        guard dSquared > 0 else { return false }
+        let d = sqrt(dSquared)
+        let t0 = (-b - d) / (2 * a)
+        let t1 = (-b + d) / (2 * a)
+        
+        if t0 < t1 && t0 > tMin && t0 < h.t {
+            let n = normalize(r.pointAtParameter(t0) - center)
+            h.set(t: t0, material: material, normal: n)
+        } else if t1 > tMin && t1 < h.t {
+            let n = normalize(r.pointAtParameter(t1) - center)
+            h.set(t: t1, material: material, normal: n)
+        }
         return true
     }
     

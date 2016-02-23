@@ -37,7 +37,7 @@ class PerspectiveCamera : Camera {
         self.center = center
         self.direction = normalize(direction)
         self.horizontal = normalize(cross(direction, up))
-        self.up = normalize(cross(horizontal, direction))
+        self.up = normalize(cross(horizontal, direction))  // It's better not use "up" in order to make sure parpendicular
         self.fieldOfView = fieldOfView
         self.aspect = Float(h) / Float(w)
     }
