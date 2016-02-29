@@ -71,6 +71,7 @@ class RayCaster: Renderer {
         }
         
         windowController.updateStatusLabel("Processing depth pixels for", scene: sceneFile)
+        displayResult(saveImage: saveImage)
         processDepth(saveImage: saveDepth)
         processNormals(saveImage: saveNormal)
         
@@ -83,6 +84,10 @@ class RayCaster: Renderer {
     }
     
     func raycastPixel(i: Int, _ j: Int) {
+//        Update your raycastPixel function. Whenever there is an intersection in your scene, call image.setPixel with the results of shade. When there is not an intersection, call image.setPixel with scene.backgroundColor.
+        
+        
+        
         let x = (Float(i) - Float(width)/2) / (Float(width)/2) + (1 / Float(width))
         let y = (-Float(j) + Float(height)/2) / (Float(height)/2) + (1 / Float(height))
         
@@ -90,14 +95,30 @@ class RayCaster: Renderer {
         let hit = Hit()
         
         if scene.group.intersect(ray: ray, tMin: scene.camera.tMin, hit: hit) {
+            let color = shade(ray: ray, hit: hit)
+            image.setPixel(x: i, y: j, color: color)
             setDepthPixel(x: i, y: j, hit: hit)
             setNormalPixel(x: i, y: j, hit: hit)
+        } else {
+            image.setPixel(x: i, y: j, color: scene.backgroundColor)
         }
     }
     
     func shade(ray ray: Ray, hit: Hit) -> vector_float3 {
-        //FIXME: Not yet implemented!
-        return vector_float3()
+        guard let material = hit.material else {
+            fatalError("Hit without a material assigned")
+        }
+        hit.setNormal(normalize(hit.normal!))
+        var color = scene.ambientLight * material.diffuseColor
+
+        let p = ray.pointAtParameter(hit.t)
+        // iterate over lights, apply diffuse shading
+        for light in scene.lights {
+            let lightInfo = light.getIllumination(point: p)
+            color += material.shade(ray, hit: hit, lightInfo: lightInfo)
+        }
+        
+        return color
     }
     
     func setDepthPixel(x x: Int, y: Int, hit: Hit) {
