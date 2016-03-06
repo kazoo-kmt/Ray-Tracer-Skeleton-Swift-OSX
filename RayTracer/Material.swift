@@ -45,9 +45,14 @@ class Material {
         let shadedColor = diffuseColor * influence * light.color
         
         // specular calcuration
+        let mirrorDirection = -1 * light.direction + 2 * dot(light.direction, hit.normal!) * hit.normal!
+        let cameraDirection = Camera.generateRay(self.hit).direction
+        
+        let specularInfluence = dot(mirrorDirection, cameraDirection)
+        let specularedColor = specularColor * specularInfluence * light.color
 
 
-        return shadedColor
+        return shadedColor + specularedColor
     }
     
 }
