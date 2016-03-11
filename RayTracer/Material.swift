@@ -46,9 +46,9 @@ class Material {
         
         // specular calcuration
         let mirrorDirection = -1 * light.direction + 2 * dot(light.direction, hit.normal!) * hit.normal!
-        let cameraDirection = Camera.generateRay(self.hit).direction
+        let cameraDirection = -ray.direction
         
-        let specularInfluence = dot(mirrorDirection, cameraDirection)
+        let specularInfluence = max(0, dot(mirrorDirection, cameraDirection)) ** shininess
         let specularedColor = specularColor * specularInfluence * light.color
 
 
