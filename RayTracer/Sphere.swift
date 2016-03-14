@@ -39,8 +39,10 @@ class Sphere: ObjectType, CustomStringConvertible {
         let a = length(r.direction) ** 2
         let b = dot(2 * r.direction, originTranslation)
         let c = dot(originTranslation, originTranslation) - (radius ** 2)
+        
         let dSquared = (b ** 2) - (4 * a * c)
         guard dSquared > 0 else { return false }
+        
         let d = sqrt(dSquared)
         let t0 = (-b - d) / (2 * a)
         let t1 = (-b + d) / (2 * a)
