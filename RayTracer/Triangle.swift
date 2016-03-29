@@ -70,6 +70,14 @@ class Triangle: ObjectType, Equatable {
     
     func intersect(ray r: Ray, tMin: Float, hit h: Hit) -> Bool {
         //FIXME: Not yet implemented!
+        let matrixA = ...
+        let matrixBeta = ...
+        let beta  = determinant(<#T##m: matrix_float3x3##matrix_float3x3#>) / determinant(<#T##m: matrix_float3x3##matrix_float3x3#>)
+        
+        let gamma =
+        let t     =
+        
+        // Intersection if beta + gamma <= 1, beta >= 0, gamma >= 0, t > tmin
         
         return false
     }
