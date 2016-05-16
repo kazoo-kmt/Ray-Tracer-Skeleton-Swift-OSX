@@ -4,7 +4,7 @@
 //
 // All additional code written by Dion Larson unless noted otherwise.
 //
-// Original skeleton code available for free with here (assignments 4 & 5):
+// Original skeleton code available for free here (assignments 4 & 5):
 // http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-837-computer-graphics-fall-2012/
 //
 // Licensed under Creative Commons 4.0 (Attribution, Noncommercial, Share Alike)
@@ -34,7 +34,7 @@ class Sphere: ObjectType, CustomStringConvertible {
     }
     
     func intersect(ray r: Ray, tMin: Float, hit h: Hit) -> Bool {
-        //TODO: Fix return to return false for....
+        // TODO: Fix return to return false for negative t values
         let originTranslation = r.origin - center
         let a = length(r.direction) ** 2
         let b = dot(2 * r.direction, originTranslation)
@@ -53,7 +53,10 @@ class Sphere: ObjectType, CustomStringConvertible {
         } else if t1 > tMin && t1 < h.t {
             let n = normalize(r.pointAtParameter(t1) - center)
             h.set(t: t1, material: material, normal: n)
+        } else {
+            return false
         }
+        
         return true
     }
     

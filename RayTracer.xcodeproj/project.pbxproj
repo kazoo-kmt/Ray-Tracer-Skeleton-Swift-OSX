@@ -54,6 +54,7 @@
 		BCE7EBF31C61A95600E26609 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE7EBF21C61A95600E26609 /* Image.swift */; };
 		BCE7EBF51C61A95B00E26609 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE7EBF41C61A95B00E26609 /* Group.swift */; };
 		BCE7EBF71C61A96200E26609 /* Triangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE7EBF61C61A96200E26609 /* Triangle.swift */; };
+		C9A7590F1CEA496E000318F6 /* A01_Plane.plist in Resources */ = {isa = PBXBuildFile; fileRef = C9A7590E1CEA496E000318F6 /* A01_Plane.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -106,6 +107,7 @@
 		BCE7EBF21C61A95600E26609 /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		BCE7EBF41C61A95B00E26609 /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		BCE7EBF61C61A96200E26609 /* Triangle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Triangle.swift; sourceTree = "<group>"; };
+		C9A7590E1CEA496E000318F6 /* A01_Plane.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = A01_Plane.plist; path = Scenes/A01_Plane.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +126,7 @@
 			children = (
 				BC09F4EF1C63FC0400CF77B7 /* Meshes */,
 				BC09F4F81C63FC0400CF77B7 /* Textures */,
+				C9A7590E1CEA496E000318F6 /* A01_Plane.plist */,
 				BC09F4D21C629C8C00CF77B7 /* C01_Plane.plist */,
 				BC09F4DF1C63483200CF77B7 /* C02_Cube.plist */,
 				BC09F4E01C63483200CF77B7 /* C03_Sphere.plist */,
@@ -277,6 +280,7 @@
 			files = (
 				BC09F5011C63FC0400CF77B7 /* c2.obj in Resources */,
 				BC09F4E81C63483200CF77B7 /* C03_Sphere.plist in Resources */,
+				C9A7590F1CEA496E000318F6 /* A01_Plane.plist in Resources */,
 				BC09F5001C63FC0400CF77B7 /* c1.obj in Resources */,
 				BC09F5091C63FC0400CF77B7 /* feet.bmp in Resources */,
 				BC09F5061C63FC0400CF77B7 /* body.bmp in Resources */,

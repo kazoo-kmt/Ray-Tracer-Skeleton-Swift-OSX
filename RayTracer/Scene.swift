@@ -4,7 +4,7 @@
 //
 // All additional code written by Dion Larson unless noted otherwise.
 //
-// Original skeleton code available for free with here (assignments 4 & 5):
+// Original skeleton code available for free here (assignments 4 & 5):
 // http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-837-computer-graphics-fall-2012/
 //
 // Licensed under Creative Commons 4.0 (Attribution, Noncommercial, Share Alike)
@@ -70,12 +70,18 @@ class Scene {
             return nil
         }
         
+        let center = readVector3f(data["center"])
+        let direction = readVector3f(data["direction"])
+        let up = readVector3f(data["up"])
+        let angle = degreesToRadians(readFloat(data["angle"]))
+
         if type == "PerspectiveCamera" {
-            let center = readVector3f(data["center"])
-            let direction = readVector3f(data["direction"])
-            let up = readVector3f(data["up"])
-            let angle = degreesToRadians(readFloat(data["angle"]))
             return PerspectiveCamera(center: center, direction: direction, up: up, fieldOfView: angle, w: w, h: h)
+        } else if type == "ApertureCamera"{
+            let apertureSize = readFloat(data["apertureSize"])
+            let focalLength = readFloat(data["focalLength"])
+            return ApertureCamera(apertureSize: apertureSize, focalLength: focalLength, center: center, direction: direction, up: up, fieldOfView: angle, w: w, h: h)
+            
         } else {
             fatalError("Camera type is not known!")
         }

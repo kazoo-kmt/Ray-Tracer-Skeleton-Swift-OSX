@@ -4,7 +4,7 @@
 //
 // All additional code written by Dion Larson unless noted otherwise.
 //
-// Original skeleton code available for free with here (assignments 4 & 5):
+// Original skeleton code available for free here (assignments 4 & 5):
 // http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-837-computer-graphics-fall-2012/
 //
 // Licensed under Creative Commons 4.0 (Attribution, Noncommercial, Share Alike)
@@ -39,22 +39,13 @@ class Material {
     }
     
     func shade(ray: Ray, hit: Hit, lightInfo light: (direction: vector_float3, color: vector_float3)) -> vector_float3 {
-        guard let normal = hit.normal else { fatalError("Hit does ot have a normal!") }
-
-        let influence = max(0, dot(hit.normal!, light.direction))
+        let influence = max(dot(hit.normal!, light.direction), 0)
         if influence == 0 { return vector_float3() }
-        
         let shadedColor = diffuseColor * influence * light.color
         
-        // specular calcuration
-        let mirrorDirection = -1 * light.direction + 2 * influence * normal
-        let cameraDirection = -ray.direction
-        
-        let specularAmount = max(0, dot(mirrorDirection, cameraDirection)) ** shininess
-        let specularedColor = specularColor * specularAmount * light.color
+        // specular calculation
 
-
-        return shadedColor + specularedColor
+        return shadedColor
     }
     
 }

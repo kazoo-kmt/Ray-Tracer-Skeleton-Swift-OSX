@@ -4,7 +4,7 @@
 //
 // All additional code written by Dion Larson unless noted otherwise.
 //
-// Original skeleton code available for free with here (assignments 4 & 5):
+// Original skeleton code available for free here (assignments 4 & 5):
 // http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-837-computer-graphics-fall-2012/
 //
 // Licensed under Creative Commons 4.0 (Attribution, Noncommercial, Share Alike)
@@ -47,7 +47,7 @@ class PointLight: Light {
         self.color = color
     }
     
-    // No implemented yet, will come in second half of class
+    // Fall off not implemented yet, will come in second half of class
     func getIllumination(point p: vector_float3) -> (direction: vector_float3, color: vector_float3)  {
         let pointToLight = self.position - p
         let direction = normalize(pointToLight)

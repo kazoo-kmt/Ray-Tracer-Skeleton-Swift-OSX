@@ -4,7 +4,7 @@
 //
 // All additional code written by Dion Larson unless noted otherwise.
 //
-// Original skeleton code available for free with here (assignments 4 & 5):
+// Original skeleton code available for free here (assignments 4 & 5):
 // http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-837-computer-graphics-fall-2012/
 //
 // Licensed under Creative Commons 4.0 (Attribution, Noncommercial, Share Alike)
@@ -63,10 +63,14 @@ class RayCaster: Renderer {
         
         for i in 0..<width {
             if i % 10 == 0 {
-                windowController.updateStatusLabel("Ray casting colum \(i) of \(width) for", scene: sceneFile)
+                windowController.updateStatusLabel("Ray casting column \(i) of \(width) for", scene: sceneFile)
             }
             for j in 0..<height {
-                raycastPixel(i, j)
+                if scene.camera is ApertureCamera {
+                    raycastAperturePixel(i, j)
+                } else {
+                    raycastPixel(i, j)
+                }
             }
         }
         
@@ -83,11 +87,34 @@ class RayCaster: Renderer {
         scene = nil
     }
     
+    func raycastAperturePixel (i: Int, _ j: Int) {
+        guard let camera = scene.camera as? ApertureCamera else {
+            fatalError("raycastAperturePixel called withought APertureCamera!")
+        }
+        let x = (Float(i) - Float(width)/2) / (Float(width)/2) + (1 / Float(width))
+        let y = (-Float(j) + Float(height)/2) / (Float(height)/2) + (1 / Float(height))
+        
+        let centerRay = camera.generateRay(point: vector_float2(x, y))
+        let focalPoint = centerRay.pointAtParameter(camera.focalLength)
+        var color = vector_float3()
+        
+//        let theta = Double(random()) / Double(Int.max) * 2 * M_PI
+//        let jitterDistance = Double(random()) / Double(Int.max) * Double(camera.apertureSize)
+        
+        for i in 0..<16 {
+            let castRay = camera.generateSquareJitteredRay(focalPoint)
+            let hit = Hit()
+            
+            if scene.group.intersect(ray: castRay, tMin: scene.camera.tMin, hit: hit) {
+                color += shade(ray: castRay, hit: hit)
+            } else {
+                color += scene.backgroundColor
+            }
+        }
+        image.setPixel(x: i, y: j, color: color/vector_float3(16, 16, 16))
+    }
+    
     func raycastPixel(i: Int, _ j: Int) {
-//        Update your raycastPixel function. Whenever there is an intersection in your scene, call image.setPixel with the results of shade. When there is not an intersection, call image.setPixel with scene.backgroundColor.
-        
-        
-        
         let x = (Float(i) - Float(width)/2) / (Float(width)/2) + (1 / Float(width))
         let y = (-Float(j) + Float(height)/2) / (Float(height)/2) + (1 / Float(height))
         
@@ -106,13 +133,12 @@ class RayCaster: Renderer {
     
     func shade(ray ray: Ray, hit: Hit) -> vector_float3 {
         guard let material = hit.material else {
-            fatalError("Hit without a material assigned")
+            fatalError("Hit without a material assigned!")
         }
         hit.setNormal(normalize(hit.normal!))
         var color = scene.ambientLight * material.diffuseColor
-
+        
         let p = ray.pointAtParameter(hit.t)
-        // iterate over lights, apply diffuse shading
         for light in scene.lights {
             let lightInfo = light.getIllumination(point: p)
             color += material.shade(ray, hit: hit, lightInfo: lightInfo)
@@ -127,12 +153,13 @@ class RayCaster: Renderer {
     }
     
     func setNormalPixel(x x: Int, y: Int, hit: Hit) {
-        self.normalsImage.setPixel(x: x, y: y, color: hit.normal!)
+        self.normalsImage.setPixel(x: x, y: y, color: abs(hit.normal!))
     }
     
     func processDepth(saveImage save: Bool) {
         let result = depthImage.generateDepthNSImage()
         windowController.resultsWindow.depth = result
+        
         if save {
             result.savePNGToDesktop("\(sceneFile.rawValue)_depth")
         }
@@ -141,12 +168,16 @@ class RayCaster: Renderer {
     func processNormals(saveImage save: Bool) {
         let result = normalsImage.generateNormalsNSImage()
         windowController.resultsWindow.normals = result
-        result.savePNGToDesktop("\(sceneFile.rawValue)_normal")
+        
+        if save {
+            result.savePNGToDesktop("\(sceneFile.rawValue)_normal")
+        }
     }
     
     func displayResult(saveImage save: Bool) {
         windowController.updateStatusLabel("Processing pixels for", scene: sceneFile)
         let result = image.generateNSImage()
+        windowController.resultsWindow.rendered = result
         windowController.updateImageView(result)
         
         if save {

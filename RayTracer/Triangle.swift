@@ -4,7 +4,7 @@
 //
 // All additional code written by Dion Larson unless noted otherwise.
 //
-// Original skeleton code available for free with here (assignments 4 & 5):
+// Original skeleton code available for free here (assignments 4 & 5):
 // http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-837-computer-graphics-fall-2012/
 //
 // Licensed under Creative Commons 4.0 (Attribution, Noncommercial, Share Alike)
@@ -69,27 +69,9 @@ class Triangle: ObjectType, Equatable {
     }
     
     func intersect(ray r: Ray, tMin: Float, hit h: Hit) -> Bool {
-        let detA = determinant(matrix_float3x3(columns: (a-b, a-c, r.direction)))
-        let detBeta = determinant(matrix_float3x3(columns: (a-r.origin, a-c, r.direction)))
-        let beta = detBeta / detA
-
-        let detGamma = determinant(matrix_float3x3(columns: (a-b, a-r.origin, r.direction)))
-        let gamma = detGamma / detA
-
-        let detT = determinant(matrix_float3x3(columns: (a-b, a-c, a-r.origin)))
-        let t = detT / detA
-
-        // Intersection if beta + gamma <= 1, beta >= 0, gamma >= 0, t > tmin
-        guard beta + gamma <= 1 && beta >= 0 && gamma >= 0 && t > tMin && t < h.t else {
-            return false
-        }
+        //FIXME: Not yet implemented!
         
-        let alpha = 1 - beta - gamma
-        let interNormal = alpha * normals[0] + beta * normals[1] + gamma * normals[2]
-        
-        h.set(t: t, material: material, normal: interNormal)
-        
-        return true
+        return false
     }
     
 }
